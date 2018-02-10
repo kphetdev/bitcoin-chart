@@ -1,0 +1,9 @@
+.App {
+    padding: 30px;
+    text-align: center;
+}
+
+canvas.chartjs-render-monitor#myChart {
+    display: block !important;
+    width: 100% !important;
+}
