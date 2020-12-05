@@ -2,7 +2,8 @@ import React, {Component} from 'react'
 import Chart from 'chart.js'
 import './App.css'
 
-const URL = 'https://api.coindesk.com/v1/bpi/historical/close.json'
+// get data of last 5 years
+const URL = `https://api.coindesk.com/v1/bpi/historical/close.json?start=${new Date().getFullYear()-5}-${('00'+(new Date().getMonth()+1)).slice(-2)}-${('00'+(new Date().getDate())).slice(-2)}&end=${new Date().getFullYear()}-${('00'+(new Date().getMonth()+1)).slice(-2)}-${('00'+(new Date().getDate())).slice(-2)}`
 
 export default class App extends Component {
     state = {
@@ -38,7 +39,7 @@ export default class App extends Component {
                 // adapt tmp_label here
                 labels: tmp_label,
                 datasets: [{
-                    label: 'Last 30days BTC Price',
+                    label: 'Last 5 years BTC Price',
                     // adapt tmp_label here
                     data: tmp_data,
                     backgroundColor: [
@@ -51,6 +52,11 @@ export default class App extends Component {
                 }]
             },
             options: {
+                elements: {
+                    point: {
+                        radius: 0
+                    }
+                },
                 tooltips: {
                     callbacks: {
                         // we custom tooltip that will show we point mouse data node in chart
@@ -78,7 +84,6 @@ export default class App extends Component {
             .then(r => r.json())
             .then(data => {
                 // show response data in console
-                console.log('data: ', data)
                 this.setState({ btcPrices: data.bpi })
                 this.showGraph()
             })
@@ -90,7 +95,7 @@ export default class App extends Component {
     render() {
         return (
             <div className="App">
-                <h2>30 Days Bitcoin Price History Chart</h2>
+                <h2>5 years Bitcoin Price History Chart</h2>
                 <br/>
                 <canvas id="myChart" ref="myChart" />
             </div>
